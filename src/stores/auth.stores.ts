@@ -2,16 +2,15 @@ import { api } from '../providers'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-interface Aluno {
+interface User {
   ID: string;
-  NOME: string;
-  MATRICULA: number;
-  CURSO: string;
-  EMAIL: string;
+  USUARIO: number;
+  SENHA: string;
+  TIPO: number;
 }
 
 export type AuthStores = {
-  user: Aluno;
+  user: User;
   token: string;
 }
 
@@ -23,9 +22,9 @@ export const useAuthStore = defineStore({
   } as unknown as AuthStores ),
   
   actions: {
-    async loginUser (matricula: number, senha: string) {
+    async loginUser (usuario: number, senha: string) {
       await api.post("/login", {
-        MATRICULA: matricula,
+        USUARIO: usuario,
         SENHA: senha
       })
       .then((response) => {
