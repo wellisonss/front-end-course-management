@@ -1,5 +1,5 @@
 <template>
-<div class="overflow-hidden rounded-lg m-5">
+<div v-if="teste" class="overflow-hidden rounded-lg m-5">
   <div class="border-b border-b-gray-200">
     <ul class="-mb-px flex items-center gap-4 text-sm font-medium">
       <RouterLink to="/">

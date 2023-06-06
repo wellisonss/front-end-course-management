@@ -3,15 +3,15 @@
     <div class="mb-4" >
       
       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name</label>
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Usuario</label>
         <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-        type="number" id="name" name="name" v-model="matricula" placeholder="matricula">
+        type="number" id="usuario" name="name" v-model="usuario" placeholder="usuario">
       </div>
       
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Senha</label>
         <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-        type="text" id="matricula" v-model="senha" placeholder="nova senha">
+        type="text" id="senha" v-model="senha" placeholder="senha">
       </div>
       
       <button class="w-full bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300" @click="loginUser()">Adicionar</button>
@@ -33,18 +33,18 @@ export default {
     
     const authStore = useAuthStore();
     
-    const matricula = ref();
+    const usuario = ref();
     const senha = ref("");  
     
     const loginUser = () => {  
             
-      authStore.loginUser(matricula.value, senha.value);
+      authStore.loginUser(usuario.value, senha.value);
             
     };
     
     
     return {
-      matricula,
+      usuario,
       senha,
       loginUser
       

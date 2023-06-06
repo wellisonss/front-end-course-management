@@ -1,3 +1,4 @@
+import router from '../routes/router'
 import { api } from '../providers'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
@@ -28,13 +29,20 @@ export const useAuthStore = defineStore({
         SENHA: senha
       })
       .then((response) => {
-        console.log(response);
-      
+
+        this.user = response.data.user;
+        this.token = response.data.token;
+
         sessionStorage.setItem("user", JSON.stringify(response.data.user));
         sessionStorage.setItem("token", response.data.token);
       })
-      .catch((error) => console.log(error))
+      .catch((error) => console.log(error));
+
+      if(this.token){
+        router.push("/");
+      }
       
     },
+
   }
 })
