@@ -29,10 +29,7 @@ export const useAuthStore = defineStore({
       })
       .then((response) => {
         console.log(response);
-        // this.user = response.data.user;
-        // this.token = response.data.token;
-
-        // Salvar o user e token no sessionStorage
+      
         sessionStorage.setItem("user", JSON.stringify(response.data.user));
         sessionStorage.setItem("token", response.data.token);
       })
