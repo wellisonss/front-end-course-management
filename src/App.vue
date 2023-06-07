@@ -1,6 +1,9 @@
 <template>
 <div class="overflow-hidden rounded-lg m-5">
   <div v-if="user?.TIPO === 1" class="border-b border-b-gray-200">
+    <button @click="authStore.logout" class="absolute top-0 right-0 mt-4 mr-4 flex items-center space-x-2 bg-blue-500 text-white py-2 px-4 rounded">
+      <span>Sair</span>
+    </button>
     <ul class="-mb-px flex items-center gap-4 text-sm font-medium">
       <RouterLink to="/professor">
         <li class="flex-1">
@@ -49,7 +52,8 @@ export default {
 
     return {
       selectedTab,
-      user
+      user,
+      authStore
     };
   }
 

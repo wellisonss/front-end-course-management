@@ -34,6 +34,7 @@ import { useAuthStore, useMainStore } from "../stores"
 import { storeToRefs } from "pinia"
 
 export default {
+  name: 'InforAluno',
   
   setup() {
     

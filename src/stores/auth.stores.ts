@@ -39,7 +39,7 @@ export const useAuthStore = defineStore({
       .catch((error) => console.log(error));
 
       if(this.token){
-        router.push("/");
+        router.push("/professor");
       }
       
     },
