@@ -60,6 +60,21 @@ export const useAuthStore = defineStore({
         console.log(error.response.data)
         
       }
+    },
+
+    logout () {
+      console.log("sair");
+
+      // Zera os valores de user e token
+      this.user = null as unknown as User;
+      this.token = null as unknown as string;
+
+      sessionStorage.removeItem("user");
+      sessionStorage.removeItem("token");
+
+      router.push("/login");
+
+
     }
 
     
