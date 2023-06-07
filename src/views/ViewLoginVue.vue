@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-4" >
+    <div class="w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md p-10 m-16" >
       
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Usuario</label>
@@ -14,7 +14,7 @@
         type="text" id="senha" v-model="senha" placeholder="senha">
       </div>
       
-      <button class="w-full bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300" @click="loginUser()">Adicionar</button>
+      <button class="w-full bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300" @click="loginUser()">Entrar</button>
     </div>
   </div> 
   

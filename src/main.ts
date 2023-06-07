@@ -4,9 +4,9 @@ import "./style.css";
 import App from "./App.vue";
 import router from "./routes/router";
 
-const _pinia = createPinia();
+const pinia = createPinia();
 
 createApp(App)
-.use(_pinia)
+.use(pinia)
 .use(router)
 .mount("#app");

@@ -44,5 +44,25 @@ export const useAuthStore = defineStore({
       
     },
 
+    async checkToken( ) {
+      try {
+        const tokenUser = "Bearer " + this.token;
+
+        const { data } = await api.get("/verify", {
+          headers: {
+            Authorization: tokenUser
+          }
+        });
+        
+        return data;
+
+      } catch (error: any) {
+        console.log(error.response.data)
+        
+      }
+    }
+
+    
+
   }
 })
