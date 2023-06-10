@@ -1,2 +1,2 @@
-export * from './aluno';
+export * from './AlunoProvider';
 export * from './api'

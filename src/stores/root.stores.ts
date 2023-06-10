@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { Aluno } from '@/Interfaces/aluno'
+import { IAluno } from '@/Interfaces/IAluno'
 
 interface Professor {
   NOME: string;
@@ -10,13 +10,13 @@ interface Professor {
   SENHA: string;
 }
 
-interface UserAluno extends Aluno {}
+interface UserAluno extends IAluno {}
 interface UserProfessor extends Professor {}
 
 export const useMainStore = defineStore({
   id: "mainStore",
   state: () => ({
-    alunos: [] as Aluno[],
+    alunos: [] as IAluno[],
     professores: [] as Professor[],
     userAluno: {} as UserAluno,
     userProfessor: {} as UserProfessor
@@ -24,7 +24,7 @@ export const useMainStore = defineStore({
 
   actions: {
 
-    setAlunos(alunos: Aluno[]) {
+    setAlunos(alunos: IAluno[]) {
       this.alunos = alunos;
     },
 

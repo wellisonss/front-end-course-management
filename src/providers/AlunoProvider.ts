@@ -1,17 +1,17 @@
 import { api } from "./api";
-import { Aluno } from "@/Interfaces/aluno"
+import { IAluno } from "@/Interfaces/IAluno"
 
-const getAlunoApi = async (): Promise<Aluno[]> => {
+const getAlunoApi = async (): Promise<IAluno[]> => {
   try {
     const response = await api.get("/aluno");
     return response.data;
   } catch (error) {
-    console.error(error);
-    throw error; 
+      throw error; 
   }
 };
 
-const postAlunoApi = async (aluno: Aluno): Promise<Aluno> => {
+const postAlunoApi = async (aluno: IAluno): Promise<IAluno> => {
+
   try {
     const response = await api.post("/aluno", {
       NOME: aluno.NOME,
@@ -22,7 +22,6 @@ const postAlunoApi = async (aluno: Aluno): Promise<Aluno> => {
     });
     return response.data;
   } catch (error) {
-    console.error(error);
     throw error;
   }
 };
@@ -31,12 +30,11 @@ const deleteAlunoApi = async (id: string): Promise<void> => {
   try {
     await api.delete(`/aluno/${id}`);
   } catch (error) {
-    console.error(error);
     throw error;
   }
 };
 
-const updateAlunoApi = async (aluno: Aluno): Promise<void> => {
+const updateAlunoApi = async (aluno: IAluno): Promise<void> => {
   try {
     await api.put(`/aluno/${aluno.ID}`, {
       NOME: aluno.NOME,
@@ -45,8 +43,7 @@ const updateAlunoApi = async (aluno: Aluno): Promise<void> => {
       SENHA: aluno.SENHA
     });
   } catch (error) {
-    console.error(error);
-    throw error;
+     throw error;
   }
 };
 

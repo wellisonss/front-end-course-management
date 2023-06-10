@@ -48,7 +48,7 @@
   </template>
   
   <script lang="ts">
-  import { postAlunoApi } from "../providers";
+  import { postAlunoApi, getAlunoApi } from "../providers";
   import { useMainStore } from "../stores"
 
   interface State {
@@ -67,7 +67,8 @@
   
     setup() {
 
-
+      const mainStore = useMainStore();
+       
       const state =  reactive<State>({
         nome: "",
         curso: "",
@@ -79,23 +80,37 @@
 
     
       const setModal = ( isOpen: boolean ) => {  
+        
+        state.nome = "";
+        state.curso = "";
+        state.senha = undefined;
+        state.email = "";
+        state.matricula = undefined;
+  
         state.showModal = isOpen;
       };
   
-      const insertAluno = () => {
+      const insertAluno =  async() => {
 
-        postAlunoApi({
+        // insere um novo aluno
+        await postAlunoApi({
           ID: "",
           NOME: state.nome,
           CURSO: state.curso,
           EMAIL: state.email,
           SENHA: state.senha,
           MATRICULA: state.matricula
-        })
+        });
+
+        const alunos = await getAlunoApi();
+
+        mainStore.setAlunos(alunos);
+        // criar um setAlunos
+
+        setModal(false);  
 
       }
   
-       setModal(false);  
   
       return {
         insertAluno,
