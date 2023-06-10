@@ -39,7 +39,7 @@
                 type="number" id="matricula" v-model="state.matricula" placeholder="matricula do aluno">
               </div>
               
-              <button class="w-full bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300" @click="postAluno()"> Adicionar </button>
+              <button class="w-full bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300" @click="insertAluno()"> Adicionar </button>
             </div>
           </slot>
         </div>
@@ -48,15 +48,14 @@
   </template>
   
   <script lang="ts">
-  import { api } from "../providers";
-  import { ref } from 'vue';
+  import { postAlunoApi } from "../providers";
   import { useMainStore } from "../stores"
 
   interface State {
-    nome?: string,
-    curso?: string,
+    nome: string,
+    curso: string,
     senha?: number,
-    email?: string,
+    email: string,
     matricula?: number,
     showModal: boolean
 }
@@ -68,13 +67,12 @@
   
     setup() {
 
-      const mainStore = useMainStore();
 
       const state =  reactive<State>({
-        nome: undefined,
-        curso: undefined,
+        nome: "",
+        curso: "",
         senha: undefined,
-        email: undefined,
+        email: "",
         matricula: undefined,
         showModal: false
       });
@@ -84,26 +82,23 @@
         state.showModal = isOpen;
       };
   
-      const postAluno = async () => {
-  
-        await api.post("aluno/", {
+      const insertAluno = () => {
+
+        postAlunoApi({
+          ID: "",
           NOME: state.nome,
           CURSO: state.curso,
           EMAIL: state.email,
           SENHA: state.senha,
           MATRICULA: state.matricula
         })
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error))
-  
-        mainStore.getAlunos();
 
-        setModal(false);  
+      }
   
-     };
-    
+       setModal(false);  
+  
       return {
-        postAluno,
+        insertAluno,
         setModal,
         state
       };

@@ -1,3 +1,2 @@
-import { api } from './api';
-
-export { api };
+export * from './aluno';
+export * from './api'

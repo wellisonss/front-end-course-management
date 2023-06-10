@@ -42,7 +42,7 @@
 
 <!-- modal -->
 <div>
-    <div v-if="showModal" class="modal">
+    <div v-if="state.showModal" class="modal">
       <div class="w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md p-10 m-16  ">
         <span class="close" @click="closeModal">&times;</span>
         <slot>
@@ -51,25 +51,25 @@
             <div class="mb-4">
               <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name</label>
               <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                type="text" id="name" name="name" v-model="nome" placeholder="nome do aluno">
+                type="text" id="name" name="name" v-model="state.nome" placeholder="nome do aluno">
             </div>
 
             <div class="mb-4">
               <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Senha</label>
               <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-              type="number" id="matricula" v-model="senha" placeholder="nova senha">
+              type="number" id="matricula" v-model="state.senha" placeholder="nova senha">
             </div>
 
             <div class="mb-4">
               <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Curso</label>
               <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-              type="text" id="curso" v-model="curso" placeholder="curso">
+              type="text" id="curso" v-model="state.curso" placeholder="curso">
             </div>
 
             <div class="mb-4">
               <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Email</label>
               <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-              type="email" id="email" v-model="email" placeholder="email do aluno">
+              type="email" id="email" v-model="state.email" placeholder="email do aluno">
             </div>
             
             <button class="w-full bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300" @click="updateAluno()">Atualizar</button>
@@ -82,7 +82,7 @@
 
 <script lang="ts">
 import {
-  api
+  getAlunoApi, deleteAlunoApi, updateAlunoApi
 } from "../providers";
 import {
   ref
@@ -90,6 +90,15 @@ import {
 
 import { useMainStore } from "../stores"
 import { storeToRefs } from "pinia"
+
+interface State {
+    nome: string,
+    curso: string,
+    senha: number,
+    email: string,
+    matricula: number,
+    showModal: boolean
+}
 
 export default {
   name: 'TableAlunoVue',
@@ -104,81 +113,81 @@ export default {
     const senha = ref("");
     const email = ref("");
 
+    const state =  reactive<State>({
+        nome: "",
+        curso: "",
+        senha: 0,
+        email: "",
+        matricula: 0,
+        showModal: false
+      });
 
-    const showModal = ref(false);
+
 
     const idAluno = ref("");
 
     const openModal = (id: string) => {
       idAluno.value = id;
 
-      showModal.value = true;
+      state.showModal = true;
     };
 
     const closeModal = () => {
-      showModal.value = false;
+      state.showModal = false;
     };
 
     const getAlunos = async () => {
-      await api.get("/aluno")
-        .then((response) => {
+      try {
+        const result = await getAlunoApi()
+        alunos.value = result;
 
-          console.log(response);
-          alunos.value = response.data
-        })
-        .catch((error) => console.log(error))
-
-    };
-
-    const deleteAluno = async (id: string) => {
-      console.log("teste", id);
-
-      await api.delete("aluno/" + id)
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error))
-
-        getAlunos();
-
+      } catch (error) {
+        
+      }
     }
-
-    const updateAluno = async () => {
-
-      await api.put("aluno/" + idAluno.value, {
-        NOME: nome.value,
-        CURSO: curso.value,
-        EMAIL: email.value,
-        SENHA: senha.value
-      })
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error))
-
-      getAlunos();
-      closeModal();
-      
-      console.log("Nome:", nome.value);
-      console.log("Matrícula:", senha.value);
-      console.log("Curso:", curso.value);
-      console.log("Email:", email.value);
-      
-
-   };
-
 
     getAlunos();
 
+    const deleteAluno = async (id: string) => {
+      try {
+        if(id){
+          await deleteAlunoApi(id);
+        }
+      } catch (error) {
+        
+      }
+    }
+
+const updateAluno = async () => {
+  try {
+    await updateAlunoApi({
+      ID: idAluno.value,
+      NOME: state.nome,
+      CURSO: state.curso,
+      EMAIL: state.email,
+      SENHA: state.senha,
+      MATRICULA: state.matricula
+    })
+  } catch (error) {
+    
+  }
+}
+
+
+
+  
+
+
+  //   getAlunos();
+
     return {
       alunos,
-      deleteAluno,
-      getAlunos,
-      updateAluno,
       openModal,
       closeModal,
-      showModal,
       idAluno,
-      nome,
-      senha,
-      curso,
-      email,
+      state,
+      deleteAluno,
+      updateAluno
     };
   }
 

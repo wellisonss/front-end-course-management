@@ -1,13 +1,5 @@
-import { api } from '../providers'
-import { defineStore } from 'pinia'
-
-interface Aluno {
-  ID: string;
-  NOME: string;
-  MATRICULA: number;
-  CURSO: string;
-  EMAIL: string;
-}
+import { defineStore } from 'pinia';
+import { Aluno } from '@/Interfaces/aluno'
 
 interface Professor {
   NOME: string;
@@ -31,26 +23,12 @@ export const useMainStore = defineStore({
   }),
 
   actions: {
-    async getAlunos() {
-      try {
-        const response = await api.get("/aluno");
-        this.alunos = response.data;
-      } catch (error) {
-        console.log(error);
-      }
+
+    setAlunos(alunos: Aluno[]) {
+      this.alunos = alunos;
     },
 
-    async getProfessores() {
-      try {
-        const response = await api.get("/professor");
-        this.professores = response.data;
-      } catch (error) {
-        console.log(error);
-      }
-    },
     async getAlunoById(id: string) {
-
-      await this.getAlunos();
 
       const aluno = this.alunos.find((aluno) => aluno.ID === id);
 
@@ -63,7 +41,6 @@ export const useMainStore = defineStore({
 
     async getProfessorById(siaep: number) {
 
-      await this.getProfessores();
       const professor = this.professores.find((professor) => professor.SIAEP === siaep);
 
       if (professor) {
