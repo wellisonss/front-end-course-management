@@ -1,3 +1,4 @@
+import { IDisciplina } from './../Interfaces/IDisciplina';
 import { defineStore } from 'pinia';
 import { IAluno } from '@/Interfaces/IAluno'
 import { IProfessor } from '@/Interfaces/IProfessor';
@@ -5,25 +6,29 @@ import { IProfessor } from '@/Interfaces/IProfessor';
 interface UserAluno extends IAluno {}
 interface UserProfessor extends IProfessor {}
 
+
 export const useMainStore = defineStore({
   id: "mainStore",
   state: () => ({
     alunos: [] as IAluno[],
     professores: [] as IProfessor[],
     userAluno: {} as UserAluno,
-    userProfessor: {} as UserProfessor
+    userProfessor: {} as UserProfessor,
+    disciplinas: [] as IDisciplina[]
   }),
 
   actions: {
 
     setAlunos(alunos: IAluno[]) {
-
       this.alunos = alunos;
-      console.log("setAlunos")
     },
 
     setProfessores(professores: IProfessor[]){
       this.professores = professores;
+    },
+
+    setDisciplinas(disciplinas: IDisciplina[]) {
+      this.disciplinas = disciplinas;
     },
 
     async getAlunoById(id: string) {
@@ -37,14 +42,14 @@ export const useMainStore = defineStore({
       }
     },
 
-    async getProfessorById(siaep: number) {
+    async getProfessorById(id: string) {
 
-      const professor = this.professores.find((professor) => professor.SIAEP === siaep);
+      const professor = this.professores.find((professor) => professor.ID === id);
 
       if (professor) {
         this.userProfessor = professor;
       } else {
-        console.log(`Professor com o ID ${siaep} não encontrado.`);
+        console.log(`Professor com o ID ${id} não encontrado.`);
       }
     },
 

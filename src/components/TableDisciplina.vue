@@ -1,31 +1,25 @@
 <template>
-  <!-- component -->
+  <!-- tabela -->
   <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
     <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
       <thead class="bg-gray-50">
         <tr>
-          <th scope="col" class="px-6 py-4 font-medium text-gray-900">Curso</th>
-          <th scope="col" class="px-6 py-4 font-medium text-gray-900">Horário</th>
           <th scope="col" class="px-6 py-4 font-medium text-gray-900">Nome</th>
-          <th scope="col" class="px-6 py-4 font-medium text-gray-900">Vagas</th>
-          <th scope="col" class="px-6 py-4 font-medium text-gray-900">Turno</th>
+          <th scope="col" class="px-6 py-4 font-medium text-gray-900">Curso</th>
+          <th scope="col" class="px-6 py-4 font-medium text-gray-900">Descrição</th>
+          <th scope="col" class="px-6 py-4 font-medium text-gray-900">Código</th>
           <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
-  
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-100 border-t border-gray-100">
         <tr class="hover:bg-gray-50" v-for="(item, index) in disciplinas" :key="index">
-          
-          <td class="px-6 py-4"> {{ item.CURSO }}</td>
-          <td class="px-6 py-4"> {{ item.HORARIO }}</td>
-          <td class="px-6 py-4"> {{ item.NOME }}</td>
-          <td class="px-6 py-4"> {{ item.VAGAS }}</td>
-          <td class="px-6 py-4"> {{ item.TURNO }}</td>
-
-  
+          <td class="px-6 py-4">{{ item.NOME }}</td>
+          <td class="px-6 py-4">{{ item.CURSO }}</td>
+          <td class="px-6 py-4">{{ item.DESCRICAO }}</td>
+          <td class="px-6 py-4">{{ item.COD_DISCIPLINA }}</td>
           <td class="px-6 py-4">
             <div class="flex justify-end gap-4">
-              <a x-data="{ tooltip: 'Delete' }" @click="deleteDisciplina(item.COD_DISCIPLINA)">
+              <a @click="deleteDiscipla(item.ID)">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -33,7 +27,6 @@
                   stroke-width="1.5"
                   stroke="currentColor"
                   class="h-6 w-6"
-                  x-tooltip="tooltip"
                 >
                   <path
                     stroke-linecap="round"
@@ -42,76 +35,107 @@
                   />
                 </svg>
               </a>
-              <a x-data="{ tooltip: 'Edite' }" href="#">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="h-6 w-6"
-                  x-tooltip="tooltip"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-                  />
-                </svg>
-              </a>
             </div>
           </td>
-      
         </tr>
       </tbody>
     </table>
   </div>
-  </template>
-  
-  <script lang="ts">
-  import { api } from "../providers";
-  import { ref } from 'vue';
-  
-  interface disciplina {
-    NOME: string;
-    TURNO: string;
-    HORARIO: string;
-    VAGAS: number;
-    CURSO: string;
-    COD_DISCIPLINA: string;
-  }
-  
-  export default {
+
+</template>
+
+<script lang="ts">
+import { reactive, ref } from 'vue';
+import {  getDisciplinaApi, deleteDisciplinaApi } from '../providers';
+import { useMainStore } from '../stores';
+import { storeToRefs } from 'pinia';
+
+interface State {
+  nome: string;
+  curso: string;
+  descricao: string;
+  codigo: string;
+  showModal: boolean;
+}
+
+
+
+export default {
   name: 'TableDisciplinaVue',
-  
-  setup (){
-  
-      const disciplinas = ref<disciplina[]>([]);
-  
-      const getDisciplina = async () => {
-        await api.get("/disciplina")
-        .then((response ) => {
-  
-          console.log( response.data );
-          disciplinas.value = response.data
-        })
-        .catch((error) => console.log(error))
-        
-          };
-  
-        const deleteDisciplina = (condigo: string) => {
-          console.log("teste", condigo);
-        }
-  
-        getDisciplina();
-  
-      
-      return { disciplinas, deleteDisciplina, getDisciplina };
-    }
-  
-  }
-  
-  </script>
-  
-  <style scoped></style>
-  
+
+  beforeMount() {
+    this.getDisicplinas();
+  },
+
+  setup() {
+    const mainStore = useMainStore();
+    const { disciplinas } = storeToRefs(mainStore);
+
+    const state = reactive<State>({
+      nome: '',
+      curso: '',
+      descricao: '',
+      codigo: '',
+      showModal: false,
+    });
+
+    // NOME: string;
+//   CURSO: string;
+//   DESCRICAO: string;
+//   COD_DISCIPLINA: string;
+
+    const idDisciplina = ref('');
+
+    const closeModal = () => {
+      state.showModal = false;
+    };
+
+    const getDisicplinas = async () => {
+      const disciplinas = await getDisciplinaApi();
+      mainStore.setDisciplinas(disciplinas);
+    };
+
+    const deleteDiscipla = async (id: string) => {
+      await deleteDisciplinaApi(id);
+      getDisicplinas();
+    };
+
+ 
+    return {
+      disciplinas,
+      closeModal,
+      idDisciplina,
+      state,
+      deleteDiscipla,
+      getDisicplinas
+    };
+  },
+};
+</script>
+
+<style scoped>
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
