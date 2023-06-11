@@ -1,18 +1,21 @@
 <template>
-  <div>
+  <div class="bg-red-700">
+    <div class="img flex h-32 items-center justify-center">
+      <img
+        src="https://portais.ufma.br/PortalUfma/img/brasao-normal.png;jsessionid=8D65930992E753B8B6C2B861BF632CFD"
+        alt="Brasão da ufma"
+        class="mt-12 h-24 w-24"
+      />
+    </div>
     <div
-      class="m-16 mx-auto w-full max-w-sm rounded-md bg-white p-10 p-8 shadow-md"
+      class="m-16 mx-auto w-full max-w-sm rounded-md bg-red-700 p-10 p-8 shadow-md"
     >
-      <div class="flex flex-col items-center space-y-3">
-        <span class="font-semi-bold text-2xl leading-normal">Login</span>
-      </div>
-
       <div class="mb-4">
-        <label class="mb-2 block text-sm font-bold text-gray-700" for="name"
+        <label class="mb-2 block text-sm font-bold text-white" for="usuario"
           >Usuario</label
         >
         <input
-          class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:outline-none"
+          class="my-4 w-full rounded-full bg-gray-200 px-4 py-2 text-sm font-bold text-red-500 transition duration-300 hover:bg-gray-400"
           type="number"
           id="usuario"
           name="name"
@@ -22,11 +25,11 @@
       </div>
 
       <div class="mb-4">
-        <label class="mb-2 block text-sm font-bold text-gray-700" for="name"
+        <label class="mb-2 block text-sm font-bold text-white" for="senha"
           >Senha</label
         >
         <input
-          class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:outline-none"
+          class="my-4 w-full rounded-full bg-gray-200 px-4 py-2 text-sm font-bold text-red-500 transition duration-300 hover:bg-gray-400"
           type="text"
           id="senha"
           v-model="state.senha"
@@ -35,11 +38,12 @@
       </div>
 
       <button
-        class="my-4 w-full rounded-md bg-indigo-500 px-4 py-2 text-sm font-bold text-white transition duration-300 hover:bg-indigo-600"
+        class="my-4 w-full rounded-full bg-white px-3 py-1 text-xs font-bold text-red-500 transition duration-300 hover:bg-gray-400"
         @click="loginUser()"
       >
         Entrar
       </button>
+
       <div class="w-full text-center">
         <span class="text-sm text-blue-600">Cadastre-se</span>
       </div>

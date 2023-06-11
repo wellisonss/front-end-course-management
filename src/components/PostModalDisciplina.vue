@@ -2,7 +2,7 @@
   <!-- modal -->
   <div>
     <button
-      class="border-3 m-5 block flex w-32 items-center justify-center rounded-full border-blue-600 px-4 py-2 text-blue-600 shadow-md hover:bg-blue-600 hover:text-white focus:border-blue-600 focus:outline-none"
+      class="border-3 m-5 block flex w-32 items-center justify-center rounded-full border-red-600 px-4 py-2 text-red-600 shadow-md hover:bg-red-600 hover:text-white focus:border-red-600 focus:outline-none"
       @click="openModalD"
     >
       Adicionar
@@ -137,7 +137,7 @@ export default {
       nome,
       curso,
       descricao,
-      codigo
+      codigo,
     };
   },
 };
