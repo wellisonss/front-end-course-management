@@ -8,7 +8,7 @@
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-100 border-t border-gray-100">
-        <tr class="hover:bg-gray-50" v-for="(item, index) in state.disciplinasMatriculadas" :key="index">
+        <tr class="hover:bg-gray-50" v-for="(item, index) in DisciplinasUser" :key="index">
           <td class="px-6 py-4">{{ item.NOME }}</td>
           <td class="px-6 py-4">{{ item.CURSO }}</td>
           <td class="px-6 py-4"></td>
@@ -23,54 +23,19 @@
 <script lang="ts">
 import { useMainStore } from "../stores";
 import { storeToRefs } from "pinia";
-import { getDisciplinaApi, getMatricularApi } from "../providers";
-import { IMatricula } from "../Interfaces/IMatricula";
-import { IDisciplina } from "../Interfaces/IDisciplina";
-import { reactive } from "vue";
-
-interface State {
-  matriculasDoAluno: IMatricula[];
-  disciplinasMatriculadas: IDisciplina[];
-}
 
 export default {
   name: 'DisciplinasDoUsuario',
 
-  async beforeMount() {
-    await this.getDisicplinas();
-    await this.getMatriculasDoAluno();
-  },
 
   setup() {
     const mainStore = useMainStore();
-    const { disciplinas, userAluno } = storeToRefs(mainStore);
+    const { DisciplinasUser } = storeToRefs(mainStore);
 
-    const state = reactive<State>({
-      matriculasDoAluno: [],
-      disciplinasMatriculadas: []
-    });
-
-    const getDisicplinas = async () => {
-      const disciplinas = await getDisciplinaApi();
-      mainStore.setDisciplinas(disciplinas);
-    };
-
-    const getMatriculasDoAluno = async () => {
-      const result = await getMatricularApi();
-      state.matriculasDoAluno = result.filter(matricula => matricula.ID_USUARIO === userAluno.value.ID);
-      state.disciplinasMatriculadas = disciplinas.value.filter(disciplina =>
-        state.matriculasDoAluno.some(matricula => matricula.ID_DISCIPLINA === disciplina.ID)
-      );
-    };
-
-    console.log("disciplinas", disciplinas);
 
     return {
-      disciplinas,
-      getDisicplinas,
+      DisciplinasUser,
       mainStore,
-      state,
-      getMatriculasDoAluno
     };
   }
 }

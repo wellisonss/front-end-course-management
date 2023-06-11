@@ -34,6 +34,7 @@ const updateDisciplinaApi = async (disciplina: IDisciplina): Promise<void> => {
 };
 
 const createMatricularApi = async (idDisciplina: string, idUsuario: string): Promise<void> => {
+  console.log("matriculando aluno")
   await api.post("/turma", {
     ID_USUARIO: idUsuario,
     ID_DISCIPLINA: idDisciplina,
@@ -41,6 +42,7 @@ const createMatricularApi = async (idDisciplina: string, idUsuario: string): Pro
 }
 
   const getMatricularApi = async (): Promise<IMatricula[]> => {
+    console.log("buscando matriculas totais")
 
     const response = await api.get("/turma");
     return response.data;

@@ -32,7 +32,14 @@
 
 import { useMainStore } from "../stores"
 import { storeToRefs } from "pinia"
-import { getDisciplinaApi, createMatricularApi } from "../providers"
+import { getDisciplinaApi, createMatricularApi, getMatricularApi } from "../providers"
+import { IMatricula } from "../Interfaces/IMatricula";
+import { IDisciplina } from "../Interfaces/IDisciplina";
+
+interface State {
+  matriculasFilter: IMatricula[];
+  disciplinasMatriculadas: IDisciplina[];
+}
 
 export default {
   name: 'Matricula',
@@ -47,14 +54,34 @@ export default {
     
     const { disciplinas, userAluno } = storeToRefs(mainStore);
 
+    const state = reactive<State>({
+      matriculasFilter: [],
+      disciplinasMatriculadas: []
+    });
+
     const getDisicplinas = async () => {
       const disciplinas = await getDisciplinaApi();
-      mainStore.setDisciplinas(disciplinas);
+      mainStore.setDisciplinasTotais(disciplinas);
     };
 
-    const matricularAluno = async (idDisciplina: string) => {
-      await createMatricularApi(idDisciplina, userAluno.value.ID);
-    }
+  const matricularAluno = async (idDisciplina: string) => {
+  await createMatricularApi(idDisciplina, userAluno.value.ID);
+
+  const result = await getMatricularApi();
+  const matriculasFiltradas = result.filter(matricula => matricula.ID_USUARIO === userAluno.value.ID);
+  console.log("filtrando matricula", matriculasFiltradas);
+  const disciplinasFiltradas = disciplinas.value.filter(disciplina =>
+    matriculasFiltradas.some(matricula => matricula.ID_DISCIPLINA === disciplina.ID)
+  );
+  console.log("filtrando disciplinas pelo ID", disciplinasFiltradas)
+
+  state.matriculasFilter = matriculasFiltradas;
+  state.disciplinasMatriculadas = disciplinasFiltradas;
+
+
+  mainStore.setDisciplinas(state.disciplinasMatriculadas);
+};
+
     
     return {
       disciplinas,

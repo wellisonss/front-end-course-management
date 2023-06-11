@@ -2,6 +2,8 @@ import { IDisciplina } from './../Interfaces/IDisciplina';
 import { defineStore } from 'pinia';
 import { IAluno } from '@/Interfaces/IAluno'
 import { IProfessor } from '@/Interfaces/IProfessor';
+import { IMatricula } from '@/Interfaces/IMatricula';
+
 
 interface UserAluno extends IAluno {}
 interface UserProfessor extends IProfessor {}
@@ -14,7 +16,8 @@ export const useMainStore = defineStore({
     professores: [] as IProfessor[],
     userAluno: {} as UserAluno,
     userProfessor: {} as UserProfessor,
-    disciplinas: [] as IDisciplina[]
+    disciplinas: [] as IDisciplina[],
+    DisciplinasUser: [] as IDisciplina[],  
   }),
 
   actions: {
@@ -28,6 +31,10 @@ export const useMainStore = defineStore({
     },
 
     setDisciplinas(disciplinas: IDisciplina[]) {
+      this.DisciplinasUser = disciplinas;
+    },
+
+    setDisciplinasTotais(disciplinas: IDisciplina[]) {
       this.disciplinas = disciplinas;
     },
 
