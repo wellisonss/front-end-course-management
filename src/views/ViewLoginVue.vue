@@ -1,42 +1,53 @@
 <template>
-  <div>
-    <div class="w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md p-10 m-16" >
-
-      <div class="flex flex-col items-center space-y-3">
-            <span class="text-2xl font-semi-bold leading-normal" >Login</span>
+  <body>
+    <div class="img">
+      <img
+        src="https://portais.ufma.br/PortalUfma/img/brasao-normal.png;jsessionid=8D65930992E753B8B6C2B861BF632CFD"
+        alt="Brasão da ufma"
+      />
+    </div>
+    <div class="container">
+      <div class="card">
+        <div class="label-float">
+          <p>E-mail:</p>
+          <input
+            type="text"
+            id="usuario"
+            v-model="state.usuario"
+            placeholder=""
+            required
+          />
         </div>
-      
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Usuario</label>
-        <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-        type="number" id="usuario" name="name" v-model="state.usuario" placeholder="usuario">
-      </div>
-      
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Senha</label>
-        <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-        type="text" id="senha" v-model="state.senha" placeholder="senha">
-      </div>
+        <div class="label-float">
+          <p>Senha:</p>
+          <input
+            type="password"
+            id="senha"
+            v-model="state.senha"
+            placeholder=""
+            required
+          />
+          <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="justify-center">
+          <button @click="loginUser()">Entrar</button>
+        </div>
 
-      <button class="w-full bg-indigo-500 text-white text-sm font-bold py-2 px-4 my-4 rounded-md hover:bg-indigo-600 transition duration-300" @click="loginUser()">Entrar</button>
-      <div class="w-full text-center">
-        <span class="text-sm text-blue-600">Cadastre-se</span>
-    </div>
-     <div class="flex justify-center items-center">
-        <PostAlunoModal class="px-1" nome-botao="Aluno "></PostAlunoModal>
-        <PostProfessorModal class="px-1"  nome-botao="Professor "></PostProfessorModal>
+        <div class="container-link">
+          <span>Cadastre-se: </span>
+          <PostAlunoModal nome-botao=" Aluno "></PostAlunoModal>,
+          <PostProfessorModal nome-botao="Professor "></PostProfessorModal>
+        </div>
       </div>
-      
     </div>
-  </div> 
-  
+  </body>
 </template>
 
 <script lang="ts">
-import { reactive } from 'vue'
+import { reactive } from "vue";
 import { useAuthStore } from "../stores";
-import PostAlunoModal from '@/components/PostAlunoModal.vue';
-import PostProfessorModal from '@/components/PostProfessorModal.vue';
+import PostAlunoModal from "@/components/PostAlunoModal.vue";
+import PostProfessorModal from "@/components/PostProfessorModal.vue";
 
 interface State {
   usuario?: number;
@@ -44,65 +55,112 @@ interface State {
 }
 
 export default {
-  name: 'login',
+  name: "login",
   components: { PostAlunoModal, PostProfessorModal },
 
-  
   setup() {
-    
     const authStore = useAuthStore();
 
     const state = reactive<State>({
       usuario: undefined,
-      senha: undefined
-    });  
+      senha: undefined,
+    });
 
     const botaoAluno = "alddduno";
-      
-    const loginUser = () => {  
-            
+
+    const loginUser = () => {
       authStore.loginUser(state.usuario, state.senha);
-            
     };
-    
-    
+
     return {
       botaoAluno,
       state,
-      loginUser
-      
+      loginUser,
     };
-  }
-  
-}
+  },
+};
 </script>
 
-
 <style scoped>
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Kanit", sans-serif;
+}
 
-.modal {
-  display: block;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
+body {
+  background-color: #952020;
+}
+
+.img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+}
+img {
+  width: 100px;
+  height: 100px;
+  margin-top: 300px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
   width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  margin-top: 150px;
 }
 
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+input {
+  width: 350px;
+  background-color: rgb(233, 228, 222);
+  padding: 9px;
+  border-radius: 17px;
+  border: none;
+  margin-top: 9px;
+  margin-bottom: 10px;
 }
 
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
+p {
+  color: rgb(233, 228, 222);
+}
+
+.justify-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+}
+
+.justify-center {
+  margin-bottom: 10px;
+}
+button {
+  padding: 5px;
+  width: 110px;
+  border-radius: 20px;
+  border: none;
+  font-size: 20px;
+  color: #952020; /* Altera a cor do texto para vermelho */
+  background-color: #fff; /* Altera a cor de fundo para branco */
+  margin-top: 20px;
   cursor: pointer;
+  transition: all 0.4s ease-out;
 }
 
+button:hover {
+  background-color: bisque;
+  color: #fff;
+}
+
+.container-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+p {
+  margin-top: 20px;
+  font-family: sans-serif;
+}
 </style>
