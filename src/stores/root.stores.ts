@@ -17,7 +17,9 @@ export const useMainStore = defineStore({
   actions: {
 
     setAlunos(alunos: IAluno[]) {
+
       this.alunos = alunos;
+      console.log("setAlunos")
     },
 
     setProfessores(professores: IProfessor[]){
