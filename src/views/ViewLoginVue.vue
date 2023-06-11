@@ -23,8 +23,10 @@
         <span class="text-sm text-blue-600">Cadastre-se</span>
     </div>
      <div class="flex justify-center items-center">
-        <PostAlunoModal :nome-botao="botaoAluno"></PostAlunoModal>
+        <PostAlunoModal class="px-1" nome-botao="Aluno "></PostAlunoModal>
+        <PostProfessorModal class="px-1"  nome-botao="Professor "></PostProfessorModal>
       </div>
+      
     </div>
   </div> 
   
@@ -34,7 +36,7 @@
 import { reactive } from 'vue'
 import { useAuthStore } from "../stores";
 import PostAlunoModal from '@/components/PostAlunoModal.vue';
-
+import PostProfessorModal from '@/components/PostProfessorModal.vue';
 
 interface State {
   usuario?: number;
@@ -43,7 +45,7 @@ interface State {
 
 export default {
   name: 'login',
-  components: { PostAlunoModal },
+  components: { PostAlunoModal, PostProfessorModal },
 
   
   setup() {
@@ -55,7 +57,7 @@ export default {
       senha: undefined
     });  
 
-    const botaoAluno = "aluno";
+    const botaoAluno = "alddduno";
       
     const loginUser = () => {  
             

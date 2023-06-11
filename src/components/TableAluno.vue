@@ -132,9 +132,9 @@ import { storeToRefs } from 'pinia';
 interface State {
   nome: string;
   curso: string;
-  senha: number;
+  senha?: number;
   email: string;
-  matricula: number;
+  matricula?: number;
   showModal: boolean;
 }
 
@@ -152,9 +152,9 @@ export default {
     const state = reactive<State>({
       nome: '',
       curso: '',
-      senha: 0,
+      senha: undefined,
       email: '',
-      matricula: 0,
+      matricula: undefined,
       showModal: false,
     });
 

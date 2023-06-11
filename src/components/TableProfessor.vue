@@ -25,7 +25,7 @@
   
           <td class="px-6 py-4">
             <div class="flex justify-end gap-4">
-              <a x-data="{ tooltip: 'Delete' }" @click="deleteProfessor(item.SIAEP)">
+              <a x-data="{ tooltip: 'Delete' }" @click="deleteProfessor(item.ID)">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -42,7 +42,7 @@
                   />
                 </svg>
               </a>
-              <a x-data="{ tooltip: 'Edite' }" href="#">
+              <a x-data="{ tooltip: 'Edite' }" @click="openModal(item.ID)">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -66,53 +66,205 @@
       </tbody>
     </table>
   </div>
+
+    <!-- modal -->
+    <div>
+    <div v-if="state.showModal" class="modal">
+      <div class="w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md p-10 m-16">
+        <span class="close" @click="closeModal">&times;</span>
+        <slot>
+          <div class="mb-4">
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name</label>
+              <input
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                type="text"
+                id="name"
+                name="name"
+                v-model="state.nome"
+                placeholder="nome do aluno"
+              >
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Senha</label>
+              <input
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                type="number"
+                id="matricula"
+                v-model="state.senha"
+                placeholder="nova senha"
+              >
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Departamento</label>
+              <input
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                type="text"
+                id="departamento"
+                v-model="state.departamento"
+                placeholder="departamento"
+              >
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Email</label>
+              <input
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                type="email"
+                id="email"
+                v-model="state.email"
+                placeholder="email do aluno"
+              >
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Siaep</label>
+              <input
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                type="number"
+                id="siaep"
+                v-model="state.siaep"
+                placeholder="siaep"
+              >
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Número</label>
+              <input
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                type="number"
+                id="numero"
+                v-model="state.numero"
+                placeholder="numero"
+              >
+            </div>
+
+            <button
+              class="w-full bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300"
+              @click="updateProfessor"
+            >
+              Atualizar
+            </button>
+          </div>
+        </slot>
+      </div>
+    </div>
+  </div>
+
   </template>
   
   <script lang="ts">
-  import { api } from "../providers";
-  import { ref } from 'vue';
-  
-  interface professores {
-    NOME: string;
-    EMAIL: string;
-    SIAEP: number;
-    NUMERO: number;
-    DEPARTAMENTO: string;
-    SENHA: string;
-  }
-  
-  export default {
-  name: 'ViewProfessorVue',
-  
-  setup (){
-  
-      const professores = ref<professores[]>([]);
-  
-      const getprofessores = async () => {
-        await api.get("/professor")
-        .then((response ) => {
-  
-          console.log( response.data );
-          professores.value = response.data
-        })
-        .catch((error) => console.log(error))
-        
-          };
-  
-        const deleteProfessor = (matricula: number) => {
-          console.log("teste", matricula);
-          
-        }
-  
-          getprofessores();
-  
-      
-      return { professores, deleteProfessor, getprofessores };
-    }
-  
-  }
-  
-  </script>
-  
-  <style scoped></style>
-  
+import { reactive, ref } from 'vue';
+import { getProfessorApi, deleteProfessorApi, updateProfessorApi } from '../providers';
+import { useMainStore } from '../stores';
+import { storeToRefs } from 'pinia';
+
+interface State {
+  nome: string;
+  email: string;
+  senha: string;
+  numero?: number;
+  siaep?: number;
+  departamento: string;
+  showModal: boolean;
+}
+
+export default {
+  name: 'TableProfessorVue',
+
+  beforeMount() {
+    this.getProfessores();
+  },
+
+  setup() {
+    const mainStore = useMainStore();
+    const { professores } = storeToRefs(mainStore);
+
+    const state = reactive<State>({
+      nome: '',
+      email: '',
+      senha: '',
+      departamento: '',
+      numero: undefined,
+      siaep: undefined,
+      showModal: false,
+    });
+
+    const idProfessor = ref('');
+
+    const openModal = (id: string) => {
+      idProfessor.value = id;
+      state.showModal = true;
+    };
+
+    const closeModal = () => {
+      state.showModal = false;
+    };
+
+    const getProfessores = async () => {
+      const professores = await getProfessorApi();
+      mainStore.setProfessores(professores);
+    };
+
+    const deleteProfessor = async (id: string) => {
+      await deleteProfessorApi(id);
+      getProfessores();
+    };
+
+    const updateProfessor = async () => {
+      await updateProfessorApi({
+        ID: idProfessor.value,
+        NOME: state.nome,
+        EMAIL: state.email,
+        SIAEP: state.siaep,
+        NUMERO: state.numero,
+        DEPARTAMENTO: state.departamento,
+        SENHA: state.senha
+      });
+
+      getProfessores();
+      closeModal();
+    };
+
+    return {
+      professores,
+      openModal,
+      closeModal,
+      idProfessor,
+      state,
+      deleteProfessor,
+      updateProfessor,
+      getProfessores
+    };
+  },
+};
+</script>
+
+<style scoped>
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
