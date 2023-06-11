@@ -1,46 +1,57 @@
 <template>
-  <body>
-    <div class="img">
-      <img
-        src="https://portais.ufma.br/PortalUfma/img/brasao-normal.png;jsessionid=8D65930992E753B8B6C2B861BF632CFD"
-        alt="Brasão da ufma"
-      />
-    </div>
-    <div class="container">
-      <div class="card">
-        <div class="label-float">
-          <p>E-mail:</p>
-          <input
-            type="text"
-            id="usuario"
-            v-model="state.usuario"
-            placeholder=""
-            required
-          />
-        </div>
-        <div class="label-float">
-          <p>Senha:</p>
-          <input
-            type="password"
-            id="senha"
-            v-model="state.senha"
-            placeholder=""
-            required
-          />
-          <i class="fa fa-eye" aria-hidden="true"></i>
-        </div>
-        <div class="justify-center">
-          <button @click="loginUser()">Entrar</button>
-        </div>
+  <div>
+    <div
+      class="m-16 mx-auto w-full max-w-sm rounded-md bg-white p-10 p-8 shadow-md"
+    >
+      <div class="flex flex-col items-center space-y-3">
+        <span class="font-semi-bold text-2xl leading-normal">Login</span>
+      </div>
 
-        <div class="container-link">
-          <span>Cadastre-se: </span>
-          <PostAlunoModal nome-botao=" Aluno "></PostAlunoModal>,
-          <PostProfessorModal nome-botao="Professor "></PostProfessorModal>
-        </div>
+      <div class="mb-4">
+        <label class="mb-2 block text-sm font-bold text-gray-700" for="name"
+          >Usuario</label
+        >
+        <input
+          class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:outline-none"
+          type="number"
+          id="usuario"
+          name="name"
+          v-model="state.usuario"
+          placeholder="usuario"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label class="mb-2 block text-sm font-bold text-gray-700" for="name"
+          >Senha</label
+        >
+        <input
+          class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:outline-none"
+          type="text"
+          id="senha"
+          v-model="state.senha"
+          placeholder="senha"
+        />
+      </div>
+
+      <button
+        class="my-4 w-full rounded-md bg-indigo-500 px-4 py-2 text-sm font-bold text-white transition duration-300 hover:bg-indigo-600"
+        @click="loginUser()"
+      >
+        Entrar
+      </button>
+      <div class="w-full text-center">
+        <span class="text-sm text-blue-600">Cadastre-se</span>
+      </div>
+      <div class="flex items-center justify-center">
+        <PostAlunoModal class="px-1" nome-botao="Aluno "></PostAlunoModal>
+        <PostProfessorModal
+          class="px-1"
+          nome-botao="Professor "
+        ></PostProfessorModal>
       </div>
     </div>
-  </body>
+  </div>
 </template>
 
 <script lang="ts">
@@ -82,85 +93,28 @@ export default {
 </script>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  font-family: "Kanit", sans-serif;
-}
-
-body {
-  background-color: #952020;
-}
-
-.img {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100px;
-}
-img {
-  width: 100px;
-  height: 100px;
-  margin-top: 300px;
-}
-
-.container {
-  display: flex;
-  justify-content: center;
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
   width: 100%;
-  margin-top: 150px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-input {
-  width: 350px;
-  background-color: rgb(233, 228, 222);
-  padding: 9px;
-  border-radius: 17px;
-  border: none;
-  margin-top: 9px;
-  margin-bottom: 10px;
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
 }
 
-p {
-  color: rgb(233, 228, 222);
-}
-
-.justify-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-}
-
-.justify-center {
-  margin-bottom: 10px;
-}
-button {
-  padding: 5px;
-  width: 110px;
-  border-radius: 20px;
-  border: none;
-  font-size: 20px;
-  color: #952020; /* Altera a cor do texto para vermelho */
-  background-color: #fff; /* Altera a cor de fundo para branco */
-  margin-top: 20px;
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
   cursor: pointer;
-  transition: all 0.4s ease-out;
-}
-
-button:hover {
-  background-color: bisque;
-  color: #fff;
-}
-
-.container-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-p {
-  margin-top: 20px;
-  font-family: sans-serif;
 }
 </style>
