@@ -79,11 +79,6 @@ export default {
       showModal: false,
     });
 
-    // NOME: string;
-//   CURSO: string;
-//   DESCRICAO: string;
-//   COD_DISCIPLINA: string;
-
     const idDisciplina = ref('');
 
     const closeModal = () => {

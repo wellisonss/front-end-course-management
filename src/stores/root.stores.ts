@@ -17,7 +17,7 @@ export const useMainStore = defineStore({
     userAluno: {} as UserAluno,
     userProfessor: {} as UserProfessor,
     disciplinas: [] as IDisciplina[],
-    DisciplinasUser: [] as IDisciplina[],  
+    disciplinasUser: [] as IDisciplina[],  
   }),
 
   actions: {
@@ -30,11 +30,11 @@ export const useMainStore = defineStore({
       this.professores = professores;
     },
 
-    setDisciplinas(disciplinas: IDisciplina[]) {
-      this.DisciplinasUser = disciplinas;
+    setDisciplinasUser(disciplinas: IDisciplina[]) {
+      this.disciplinasUser = disciplinas;
     },
 
-    setDisciplinasTotais(disciplinas: IDisciplina[]) {
+    setDisciplinas(disciplinas: IDisciplina[]) {
       this.disciplinas = disciplinas;
     },
 
