@@ -1,14 +1,24 @@
+<style>
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+</style>
+
 <template>
-  <div class="bg-red-700">
-    <div class="img flex h-32 items-center justify-center">
+  <div class="absolute inset-0 h-screen w-screen bg-red-900">
+    <div class="img mb-10 mt-10 flex h-32 items-center justify-center">
       <img
         src="https://portais.ufma.br/PortalUfma/img/brasao-normal.png;jsessionid=8D65930992E753B8B6C2B861BF632CFD"
         alt="Brasão da ufma"
-        class="mt-12 h-24 w-24"
+        class="h-24 w-24"
       />
     </div>
     <div
-      class="m-16 mx-auto w-full max-w-sm rounded-md bg-red-700 p-10 p-8 shadow-md"
+      class="mx-auto mt-5 w-full max-w-sm rounded-md bg-red-900 p-10 p-8 shadow-md"
     >
       <div class="mb-4">
         <label class="mb-2 block text-sm font-bold text-white" for="usuario"

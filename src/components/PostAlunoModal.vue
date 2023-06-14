@@ -5,11 +5,11 @@
       class="itens-center flex w-full cursor-pointer justify-center text-sm text-blue-500 transition duration-300 hover:text-blue-600"
       @click="setModal(true)"
     >
-      {{ nomeBotao }}</a
-    >
+      {{ nomeBotao }}
+    </a>
     <div v-if="state.showModal" class="modal">
       <div
-        class="m-16 mx-auto w-full max-w-sm rounded-md bg-white p-10 p-8 shadow-md"
+        class="m-16 mx-auto w-full max-w-sm rounded-md bg-red-900 p-10 p-8 shadow-md"
       >
         <span class="close" @click="setModal(false)">&times;</span>
         <slot>
@@ -91,8 +91,8 @@
             </div>
 
             <button
-              style="background-color: #952020"
-              class="hover:bg-#952020-700 w-full rounded-md px-4 py-2 text-sm font-bold text-white transition duration-300"
+              style="background-color: #ff4d4d"
+              class="w-full rounded-md px-4 py-2 text-sm font-bold text-white transition duration-300 hover:bg-red-700"
               @click="insertAluno()"
             >
               Adicionar
