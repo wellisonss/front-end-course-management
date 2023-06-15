@@ -41,7 +41,6 @@
                   stroke-width="1.5"
                   stroke="currentColor"
                   class="h-6 w-6"
-                  x-tooltip="tooltip"
                 >
                   <path
                     stroke-linecap="round"
@@ -67,6 +66,7 @@
                   />
                 </svg>
               </a>
+
             </div>
           </td>
         </tr>
@@ -156,98 +156,95 @@
   </div>
 </template>
 
-<script lang="ts">
-import { api } from "../providers";
-import { ref } from "vue";
 
-import { useMainStore } from "../stores";
-import { storeToRefs } from "pinia";
+<script lang="ts">
+import { reactive, ref } from 'vue';
+import {  getDisciplinaApi, deleteDisciplinaApi } from '../providers';
+import { useMainStore } from '../stores';
+import { storeToRefs } from 'pinia';
+
+interface State {
+  nome: string;
+  curso: string;
+  descricao: string;
+  codigo: string;
+  showModal: boolean;
+}
+
+
 
 export default {
-  name: "TableDisciplinaVue",
+  name: 'TableDisciplinaVue',
+
+  beforeMount() {
+    this.getDisicplinas();
+  },
 
   setup() {
     const mainStore = useMainStore();
     const { disciplinas } = storeToRefs(mainStore);
 
-    const nome = ref("");
-    const curso = ref("");
-    const descricao = ref("");
-    const codigo = ref("");
+    const state = reactive<State>({
+      nome: '',
+      curso: '',
+      descricao: '',
+      codigo: '',
+      showModal: false,
+    });
 
-    const showModalD = ref(false);
+    const idDisciplina = ref('');
 
-    const idDisciplina = ref("");
-
-    const openModalD = (codigo: string) => {
-      idDisciplina.value = codigo;
-
-      showModalD.value = true;
+    const closeModal = () => {
+      state.showModal = false;
     };
 
-    const closeModalD = () => {
-      showModalD.value = false;
+    const getDisicplinas = async () => {
+      const disciplinas = await getDisciplinaApi();
+      mainStore.setDisciplinas(disciplinas);
     };
 
-    const getDisciplinas = async () => {
-      await api
-        .get("/disciplina")
-        .then((response) => {
-          console.log(response);
-          disciplinas.value = response.data;
-        })
-        .catch((error) => console.log(error));
+    const deleteDiscipla = async (id: string) => {
+      await deleteDisciplinaApi(id);
+      getDisicplinas();
     };
 
-    const deleteDisciplina = async (codigo: string) => {
-      console.log("teste", codigo);
-
-      await api
-        .delete("disciplina/" + codigo)
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error));
-
-      getDisciplinas();
-    };
-
-    const updateDisciplina = async () => {
-      await api
-        .put("disciplina/" + idDisciplina.value, {
-          NOME: nome.value,
-          CURSO: curso.value,
-          EMAIL: descricao.value,
-          SENHA: codigo.value,
-        })
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error));
-
-      getDisciplinas();
-      closeModalD();
-
-      console.log("Nome:", nome.value);
-      console.log("Curso:", curso.value);
-      console.log("Descricao:", descricao.value);
-      console.log("Codigo:", codigo.value);
-    };
-
-    getDisciplinas();
-
+ 
     return {
       disciplinas,
-      deleteDisciplina,
-      getDisciplinas,
-      updateDisciplina,
-      openModalD,
-      closeModalD,
-      showModalD,
+      closeModal,
       idDisciplina,
-      nome,
-      curso,
-      descricao,
-      codigo,
+      state,
+      deleteDiscipla,
+      getDisicplinas
     };
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
+

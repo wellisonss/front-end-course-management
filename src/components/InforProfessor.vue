@@ -1,7 +1,5 @@
 <template> 
-  <button @click="authStore.logout" class="absolute top-0 right-0 mt-4 mr-4 flex items-center space-x-2 bg-blue-500 text-white py-2 px-4 rounded">
-    <span>Sair</span>
-  </button>
+
   
     <div class="w-full max-w-sm mx-auto bg-white rounded-md shadow-md p-8 m-16">
       <h1 class="text-gray-500 text-lg text-center"> Informações do Professor </h1>
@@ -32,9 +30,15 @@
   
   import { useAuthStore, useMainStore } from "../stores"
   import { storeToRefs } from "pinia"
+  import { getProfessorApi } from "../providers"
   
   export default {
     name: 'InforProfessor',
+
+    async beforeMount() {
+    await this.getProfessores();
+  },
+  
     
     setup() {
       
@@ -44,9 +48,14 @@
       const { user } = storeToRefs(authStore);
       const { userProfessor } = storeToRefs(mainStore);
       
-      mainStore.getProfessorById(user.value.USUARIO);
+      const getProfessores = async () => {
+      const professores = await getProfessorApi();
+      mainStore.setProfessores(professores);
+      mainStore.getProfessorById(user.value.ID);
+    };
       
       return {
+        getProfessores,
         userProfessor,
         authStore
       };
