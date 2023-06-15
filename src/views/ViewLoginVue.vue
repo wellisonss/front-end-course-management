@@ -1,42 +1,78 @@
+<style>
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+</style>
+
 <template>
-  <div>
-    <div class="w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md p-10 m-16" >
-
-      <div class="flex flex-col items-center space-y-3">
-            <span class="text-2xl font-semi-bold leading-normal" >Login</span>
-        </div>
-      
+  <div class="absolute inset-0 h-screen w-screen bg-red-900">
+    <div class="img mb-10 mt-10 flex h-32 items-center justify-center">
+      <img
+        src="https://portais.ufma.br/PortalUfma/img/brasao-normal.png;jsessionid=8D65930992E753B8B6C2B861BF632CFD"
+        alt="Brasão da ufma"
+        class="h-24 w-24"
+      />
+    </div>
+    <div
+      class="mx-auto mt-5 w-full max-w-sm rounded-md bg-red-900 p-10 p-8 shadow-md"
+    >
       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Usuario</label>
-        <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-        type="number" id="usuario" name="name" v-model="state.usuario" placeholder="usuario">
-      </div>
-      
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Senha</label>
-        <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-        type="text" id="senha" v-model="state.senha" placeholder="senha">
+        <label class="mb-2 block text-sm font-bold text-white" for="usuario"
+          >Usuario</label
+        >
+        <input
+          class="my-4 w-full rounded-full bg-gray-200 px-4 py-2 text-sm font-bold text-red-500 transition duration-300 hover:bg-gray-400"
+          type="number"
+          id="usuario"
+          name="name"
+          v-model="state.usuario"
+          placeholder="usuario"
+        />
       </div>
 
-      <button class="w-full bg-indigo-500 text-white text-sm font-bold py-2 px-4 my-4 rounded-md hover:bg-indigo-600 transition duration-300" @click="loginUser()">Entrar</button>
+      <div class="mb-4">
+        <label class="mb-2 block text-sm font-bold text-white" for="senha"
+          >Senha</label
+        >
+        <input
+          class="my-4 w-full rounded-full bg-gray-200 px-4 py-2 text-sm font-bold text-red-500 transition duration-300 hover:bg-gray-400"
+          type="text"
+          id="senha"
+          v-model="state.senha"
+          placeholder="senha"
+        />
+      </div>
+
+      <button
+        class="my-4 w-full rounded-full bg-white px-3 py-1 text-xs font-bold text-red-500 transition duration-300 hover:bg-gray-400"
+        @click="loginUser()"
+      >
+        Entrar
+      </button>
+
       <div class="w-full text-center">
         <span class="text-sm text-blue-600">Cadastre-se</span>
-    </div>
-     <div class="flex justify-center items-center">
-        <PostAlunoModal class="px-1" nome-botao="Aluno "></PostAlunoModal>
-        <PostProfessorModal class="px-1"  nome-botao="Professor "></PostProfessorModal>
       </div>
-      
+      <div class="flex items-center justify-center">
+        <PostAlunoModal class="px-1" nome-botao="Aluno "></PostAlunoModal>
+        <PostProfessorModal
+          class="px-1"
+          nome-botao="Professor "
+        ></PostProfessorModal>
+      </div>
     </div>
-  </div> 
-  
+  </div>
 </template>
 
 <script lang="ts">
-import { reactive } from 'vue'
+import { reactive } from "vue";
 import { useAuthStore } from "../stores";
-import PostAlunoModal from '@/components/PostAlunoModal.vue';
-import PostProfessorModal from '@/components/PostProfessorModal.vue';
+import PostAlunoModal from "@/components/PostAlunoModal.vue";
+import PostProfessorModal from "@/components/PostProfessorModal.vue";
 
 interface State {
   usuario?: number;
@@ -44,42 +80,33 @@ interface State {
 }
 
 export default {
-  name: 'login',
+  name: "login",
   components: { PostAlunoModal, PostProfessorModal },
 
-  
   setup() {
-    
     const authStore = useAuthStore();
 
     const state = reactive<State>({
       usuario: undefined,
-      senha: undefined
-    });  
+      senha: undefined,
+    });
 
     const botaoAluno = "alddduno";
-      
-    const loginUser = () => {  
-            
+
+    const loginUser = () => {
       authStore.loginUser(state.usuario, state.senha);
-            
     };
-    
-    
+
     return {
       botaoAluno,
       state,
-      loginUser
-      
+      loginUser,
     };
-  }
-  
-}
+  },
+};
 </script>
 
-
 <style scoped>
-
 .modal {
   display: block;
   position: fixed;
@@ -104,5 +131,4 @@ export default {
   text-decoration: none;
   cursor: pointer;
 }
-
 </style>
