@@ -49,7 +49,7 @@
                   />
                 </svg>
               </a>
-              <a x-data="{ tooltip: 'Edite' }" @click="openModalD(item.ID)">
+              <a x-data="{ tooltip: 'Edite' }" @click="openModal(item.ID)">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -75,11 +75,11 @@
   </div>
 
   <div>
-    <div v-if="showModalD" class="modal">
+    <div v-if="state.showModal" class="modal">
       <div
         class="m-16 mx-auto w-full max-w-sm rounded-md bg-white p-10 p-8 shadow-md"
       >
-        <span class="close" @click="closeModalD">&times;</span>
+        <span class="close" @click="closeModal">&times;</span>
         <slot>
           <div class="mb-4">
             <div class="mb-4">
@@ -93,7 +93,7 @@
                 type="text"
                 id="name"
                 name="name"
-                v-model="nome"
+                v-model="state.nome"
                 placeholder="nome do aluno"
               />
             </div>
@@ -108,7 +108,7 @@
                 class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:outline-none"
                 type="text"
                 id="curso"
-                v-model="curso"
+                v-model="state.curso"
                 placeholder="nova senha"
               />
             </div>
@@ -123,7 +123,7 @@
                 class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:outline-none"
                 type="text"
                 id="descricao"
-                v-model="descricao"
+                v-model="state.descricao"
                 placeholder="curso"
               />
             </div>
@@ -138,7 +138,7 @@
                 class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:outline-none"
                 type="number"
                 id="codigo"
-                v-model="codigo"
+                v-model="state.codigo"
                 placeholder="email do aluno"
               />
             </div>
@@ -203,10 +203,18 @@ export default {
       mainStore.setDisciplinas(disciplinas);
     };
 
-    const deleteDiscipla = async (id: string) => {
+    const deleteDisciplina = async (id: string) => {
       await deleteDisciplinaApi(id);
       getDisicplinas();
     };
+
+    const openModal = (id: string) => {
+      console.log(id);
+    };
+
+    const updateDisciplina = () => {
+    console.log("abrindoModal")
+    } 
 
  
     return {
@@ -214,8 +222,10 @@ export default {
       closeModal,
       idDisciplina,
       state,
-      deleteDiscipla,
-      getDisicplinas
+      deleteDisciplina,
+      getDisicplinas,
+      updateDisciplina,
+      openModal      
     };
   },
 };
