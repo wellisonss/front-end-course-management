@@ -2,8 +2,6 @@ import { IDisciplina } from './../Interfaces/IDisciplina';
 import { defineStore } from 'pinia';
 import { IAluno } from '@/Interfaces/IAluno'
 import { IProfessor } from '@/Interfaces/IProfessor';
-import { IMatricula } from '@/Interfaces/IMatricula';
-
 
 interface UserAluno extends IAluno {}
 interface UserProfessor extends IProfessor {}

@@ -22,9 +22,9 @@
               </div>
   
               <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Descricao</label>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">horario</label>
                 <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                type="text" id="descricao" v-model="state.descricao" placeholder="descricao">
+                type="text" id="horario" v-model="state.horario" placeholder="horario">
               </div>
   
               <div class="mb-4">
@@ -49,7 +49,7 @@
   interface State {
     nome: string,
     curso: string,
-    descricao: string,
+    horario: string,
     codigo: string,
     showModal: boolean
 }
@@ -66,7 +66,7 @@
       const state =  reactive<State>({
         nome: "",
         curso: "",
-        descricao: "",
+        horario: "",
         codigo: "",
         showModal: false
       });
@@ -76,7 +76,7 @@
 
         state.nome = "";
         state.curso = "";
-        state.descricao = "";
+        state.horario = "";
         state.codigo = "";
 
         state.showModal = isOpen;
@@ -89,7 +89,7 @@
           ID: "",
           NOME: state.nome,
           CURSO: state.curso,
-          DESCRICAO: state.descricao,
+          HORARIO: state.horario,
           COD_DISCIPLINA: state.codigo,
         });
 

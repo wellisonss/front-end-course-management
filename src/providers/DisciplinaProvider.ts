@@ -12,7 +12,7 @@ const postDisciplinaApi = async (disciplina: IDisciplina): Promise<IDisciplina> 
     const response = await api.post("/disciplina", {
       NOME: disciplina.NOME,
       CURSO: disciplina.CURSO,
-      DESCRICAO: disciplina.DESCRICAO,
+      HORARIO: disciplina.HORARIO,
       COD_DISCIPLINA: disciplina.COD_DISCIPLINA
     });
     return response.data;
@@ -27,11 +27,17 @@ const updateDisciplinaApi = async (disciplina: IDisciplina): Promise<void> => {
     await api.put(`/disciplina/${disciplina.ID}`, {
       NOME: disciplina.NOME,
       CURSO: disciplina.CURSO,
-      DESCRICAO: disciplina.DESCRICAO,
+      HORARIO: disciplina.HORARIO,
       COD_DISCIPLINA: disciplina.COD_DISCIPLINA
     });
 
 };
+
+const vincularProfessor = async (IdDisciplina: string, idProfessor: string): Promise<void> => {
+  await api.put(`/disciplina/${IdDisciplina}`, {
+    ID_PROFESSOR: idProfessor,
+  });
+}
 
 const createMatricularApi = async (idDisciplina: string, idUsuario: string): Promise<void> => {
   console.log("matriculando aluno")
@@ -49,4 +55,4 @@ const createMatricularApi = async (idDisciplina: string, idUsuario: string): Pro
 
 };
 
-export { getDisciplinaApi, postDisciplinaApi, deleteDisciplinaApi, updateDisciplinaApi, createMatricularApi, getMatricularApi };
+export { vincularProfessor, getDisciplinaApi, postDisciplinaApi, deleteDisciplinaApi, updateDisciplinaApi, createMatricularApi, getMatricularApi };
