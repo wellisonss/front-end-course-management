@@ -5,5 +5,6 @@ export interface IDisciplina {
   HORARIO: string;
   COD_DISCIPLINA: string;
   ID_PROFESSOR?: string;
+  NOME_PROFESSOR?: string;
 
 }
