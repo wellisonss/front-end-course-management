@@ -7,6 +7,7 @@
         <tr>
           <th scope="col" class="px-6 py-2 font-medium text-gray-900">Nome</th>
           <th scope="col" class="px-6 py-2 font-medium text-gray-900">Curso</th>
+          <th scope="col" class="px-6 py-2 font-medium text-gray-900">Vagas</th>
           <th scope="col" class="px-6 py-2 font-medium text-gray-900"></th>
         </tr>
       </thead>
@@ -14,6 +15,8 @@
         <tr class="hover:bg-gray-50" v-for="(item, index) in state.disciplinasNaoMatriculadas" :key="index">
           <td class="px-6 py-4">{{ item.NOME }}</td>
           <td class="px-6 py-4">{{ item.CURSO }}</td>
+          <td class="px-6 py-4">{{ item.VAGAS }}</td>
+
           <td class="px-6 py-4">
             <div class="flex justify-end gap-4">
               <a class="cursor-pointer" @click="matricularAluno(item.ID)">
@@ -30,7 +33,7 @@
 
 import { useMainStore } from "../stores"
 import { storeToRefs } from "pinia"
-import { getDisciplinaApi, createMatricularApi, getMatricularApi } from "../providers"
+import { getDisciplinaApi, createMatricularApi, getMatricularApi, updateDisciplinaApi, vagasDisciplinaApi } from "../providers"
 import { IDisciplina } from "../Interfaces/IDisciplina";
 
 interface State {
@@ -54,7 +57,7 @@ export default {
 
     const state = reactive<State>({
       disciplinasNaoMatriculadas: [],
-      disciplinasMatriculadas: []
+      disciplinasMatriculadas: [],
     });
 
     // busca todas as disciplinas cadastrados no banco
@@ -65,8 +68,12 @@ export default {
 
   const matricularAluno = async (idDisciplina: string) => {
 
+  const vagasDisciplinaAtual = disciplinas.value.find((disciplina) => disciplina.ID === idDisciplina) 
+  console.log(vagasDisciplinaAtual?.VAGAS)
+
     // adiciona ao banco uma linha com o id do usuario e o id da disciplina 
   await createMatricularApi(idDisciplina, userAluno.value.ID);
+  await vagasDisciplinaApi(idDisciplina, vagasDisciplinaAtual?.VAGAS)
 
   setaDisciplinasUser();
 

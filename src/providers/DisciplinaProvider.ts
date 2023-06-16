@@ -33,6 +33,17 @@ const updateDisciplinaApi = async (disciplina: IDisciplina): Promise<void> => {
 
 };
 
+const vagasDisciplinaApi = async (idDisciplina: string, vagas?: number): Promise<void> => {
+  if (typeof vagas === 'number') {
+    await api.put(`/disciplina/${idDisciplina}`, {
+      VAGAS: vagas - 1,
+    });
+  } else {
+    console.log('Número de vagas é indefinido.');
+  }
+};
+
+
 const vincularProfessor = async (IdDisciplina: string, idProfessor: string): Promise<void> => {
   await api.put(`/disciplina/${IdDisciplina}`, {
     ID_PROFESSOR: idProfessor,
@@ -55,4 +66,4 @@ const createMatricularApi = async (idDisciplina: string, idUsuario: string): Pro
 
 };
 
-export { vincularProfessor, getDisciplinaApi, postDisciplinaApi, deleteDisciplinaApi, updateDisciplinaApi, createMatricularApi, getMatricularApi };
+export { vagasDisciplinaApi, vincularProfessor, getDisciplinaApi, postDisciplinaApi, deleteDisciplinaApi, updateDisciplinaApi, createMatricularApi, getMatricularApi };
