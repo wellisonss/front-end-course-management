@@ -35,6 +35,7 @@ import { IDisciplina } from "../Interfaces/IDisciplina";
 
 interface State {
   disciplinasNaoMatriculadas: IDisciplina[];
+  disciplinasProfessor: IDisciplina[];
 }
 
 export default {
@@ -53,6 +54,7 @@ export default {
 
     const state = reactive<State>({
       disciplinasNaoMatriculadas: [],
+      disciplinasProfessor: []
     });
 
     // busca todas as disciplinas cadastrados no banco
@@ -77,6 +79,9 @@ export default {
 const setaDisciplinasSemProfessor = async () => {
   await getDisciplinas();
   state.disciplinasNaoMatriculadas = disciplinas.value.filter(disciplina => disciplina.ID_PROFESSOR === null);
+  state.disciplinasProfessor = disciplinas.value.filter(disciplina => disciplina.ID_PROFESSOR === userProfessor.value.ID);
+
+  mainStore.setDisciplinasUser(state.disciplinasProfessor);
 }
     
     return {

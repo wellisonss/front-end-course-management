@@ -16,6 +16,7 @@ export const useMainStore = defineStore({
     userProfessor: {} as UserProfessor,
     disciplinas: [] as IDisciplina[],
     disciplinasUser: [] as IDisciplina[],  
+
   }),
 
   actions: {
