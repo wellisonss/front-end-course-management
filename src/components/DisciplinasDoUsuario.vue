@@ -1,7 +1,7 @@
 <template>
   <div class="w-full col-span-1 relative lg:h-[60vh] h-[45vh] m-auto rounded-md shadow-md rounded-lg bg-white overflow-scroll">
     <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
-      <caption class="text-gray-500 text-lg text-center bg-gray-50 p-4">Turmas Do Aluno</caption>
+      <caption class="text-gray-500 text-lg text-center bg-gray-50 p-4">Turmas</caption>
       <thead class="bg-gray-50">
         <tr>
           <th scope="col" class="px-6 py-2 font-medium text-gray-900">Nome</th>
