@@ -13,7 +13,8 @@ const postDisciplinaApi = async (disciplina: IDisciplina): Promise<IDisciplina> 
       NOME: disciplina.NOME,
       CURSO: disciplina.CURSO,
       HORARIO: disciplina.HORARIO,
-      COD_DISCIPLINA: disciplina.COD_DISCIPLINA
+      COD_DISCIPLINA: disciplina.COD_DISCIPLINA,
+      VAGAS: 40
     });
     return response.data;
 
@@ -28,7 +29,7 @@ const updateDisciplinaApi = async (disciplina: IDisciplina): Promise<void> => {
       NOME: disciplina.NOME,
       CURSO: disciplina.CURSO,
       HORARIO: disciplina.HORARIO,
-      COD_DISCIPLINA: disciplina.COD_DISCIPLINA
+      COD_DISCIPLINA: disciplina.COD_DISCIPLINA,
     });
 
 };
