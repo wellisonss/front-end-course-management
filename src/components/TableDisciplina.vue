@@ -9,7 +9,7 @@
           <th scope="col" class="px-6 py-4 font-medium text-gray-900">Nome</th>
           <th scope="col" class="px-6 py-4 font-medium text-gray-900">Curso</th>
           <th scope="col" class="px-6 py-4 font-medium text-gray-900">
-            Descricao
+            horario
           </th>
           <th scope="col" class="px-6 py-4 font-medium text-gray-900">
             Código
@@ -25,7 +25,7 @@
         >
           <td class="px-6 py-4">{{ item.NOME }}</td>
           <td class="px-6 py-4">{{ item.CURSO }}</td>
-          <td class="px-6 py-4">{{ item.DESCRICAO }}</td>
+          <td class="px-6 py-4">{{ item.HORARIO }}</td>
           <td class="px-6 py-4">{{ item.COD_DISCIPLINA }}</td>
 
           <td class="px-6 py-4">
@@ -117,13 +117,13 @@
               <label
                 class="mb-2 block text-sm font-bold text-gray-700"
                 for="name"
-                >descricao</label
+                >horario</label
               >
               <input
                 class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:outline-none"
                 type="text"
-                id="descricao"
-                v-model="state.descricao"
+                id="horario"
+                v-model="state.horario"
                 placeholder="curso"
               />
             </div>
@@ -166,7 +166,7 @@ import { storeToRefs } from 'pinia';
 interface State {
   nome: string;
   curso: string;
-  descricao: string;
+  horario: string;
   codigo: string;
   showModal: boolean;
 }
@@ -187,7 +187,7 @@ export default {
     const state = reactive<State>({
       nome: '',
       curso: '',
-      descricao: '',
+      horario: '',
       codigo: '',
       showModal: false,
     });

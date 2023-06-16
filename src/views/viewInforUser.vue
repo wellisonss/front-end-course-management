@@ -7,7 +7,11 @@
     <Matricula />
     <DisciplinasDoUsuario />
 </div>
-    <InforProfessor v-else-if="user?.TIPO === 2"/>
+
+    <div v-if="user?.TIPO === 2" class="grid grid-cols-3 gap-2 p-4">
+    <InforProfessor />
+    <DisciplinasDisponiveis />
+</div>
 </template>
 
 <script lang="ts">
@@ -16,6 +20,7 @@ import InforAluno from "@components/InforAluno.vue";
 import InforProfessor from "@components/InforProfessor.vue";
 import Matricula from "@components/Matricula.vue"
 import DisciplinasDoUsuario from "@components/DisciplinasDoUsuario.vue"
+import DisciplinasDisponiveis from "@components/DisciplinasDisponiveis.vue"
 
 import { useAuthStore } from "../stores"
 import { storeToRefs } from "pinia"
@@ -26,7 +31,8 @@ export default {
         InforAluno,
         InforProfessor,
         Matricula,
-        DisciplinasDoUsuario
+        DisciplinasDoUsuario,
+        DisciplinasDisponiveis
     },
     
     setup() {
